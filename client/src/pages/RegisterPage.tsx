@@ -41,10 +41,7 @@ const RegisterPage = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (!email || !name || !last_name || !password || !re_password) {
-      toast.error("debes rellenar todos los campos del formulario");
-    } else if (password !== re_password) {
+    if (password !== re_password) {
       toast.error("Las contrasenas deben coincidir");
     } else {
       registerMutation.mutate();
