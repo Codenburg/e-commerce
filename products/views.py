@@ -3,13 +3,16 @@ from rest_framework.decorators import api_view
 from rest_framework import generics, status
 from .models import Product, Reviews
 from .serializers import ProductSerializer, ReviewSerializer
+from core.pagination import CustomPagination
 
 
 @api_view(['GET'])
 def get_products(request):
     products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    pagination = CustomPagination()
+    paginated_products = pagination.paginate_queryset(products, request)
+    serializer = ProductSerializer(paginated_products, many=True)
+    return pagination.get_paginated_response(serializer.data)
 
 
 @api_view(['GET'])
